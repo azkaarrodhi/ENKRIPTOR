@@ -7,10 +7,10 @@
 @font-face {
   font-family: "Phosphor-Bold";
   src:
-    url("/library/ph-icon/Phosphor-Bold.woff2") format("woff2"),
-    url("/library/ph-icon/Phosphor-Bold.woff") format("woff"),
-    url("/library/ph-icon/Phosphor-Bold.ttf") format("truetype"),
-    url("/library/ph-icon/Phosphor-Bold.svg#Phosphor-Bold") format("svg");
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor-Bold.woff2") format("woff2"),
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor-Bold.woff") format("woff"),
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor-Bold.ttf") format("truetype"),
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor-Bold.svg#Phosphor-Bold") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
