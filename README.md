@@ -156,8 +156,10 @@ Keamanan sepenuhnya bergantung pada kekuatan master password.
 
 ## 📄 License
 
-This project is released under the **Creative Commons CC0 1.0 Universal License**.
+This project is released under the Creative Commons CC0 1.0 Universal License.
 
+However, this project includes third-party libraries that are licensed under their own licenses (e.g., MIT License).
+See their respective license files for details.
 You are free to:
 
 - Copy
@@ -166,7 +168,6 @@ You are free to:
 - Use commercially
 - Use privately
 
-No attribution required.
 
 
 
