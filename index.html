@@ -1,0 +1,1259 @@
+<!DOCTYPE html><html lang="id">  <head>    <meta charset="UTF-8">    
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ENKRIPTOR</title>    
+<meta name="theme-color" content="#2A7DB0">
+<script src="library/sweetalert/sweetalert2.js"></script>
+<script src="library/argon2/argon2.js"></script>
+<script src="library/scanner/qr.js"></script>  
+<link rel="stylesheet" href="library/ph-icon/ph-regular.css">
+<link rel="stylesheet" href="library/ph-icon/ph-bold.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet"><style> 
+    
+    
+*::-webkit-scrollbar{ width:0px; height:0px; }  
+*{ scrollbar-width:none; }  
+*{ -ms-overflow-style:none; }  :root{
+--bg:#ffff;
+--panel:#ffffff;
+--border:#d9e1ea;
+--text:#0f172a;
+--muted:#6b7280;
+--primary:#2A7DB0;
+--primary-hover:#215d83;
+--danger:#dc2626;
+}
+
+*{
+-webkit-tap-highlight-color: transparent;
+box-sizing:border-box;
+font-family: "Montserrat", sans-serif;
+}
+
+body{
+display:flex;
+align-items: center;
+justify-content: center;
+}
+
+.swal2-container {
+    background: rgba(0, 0, 0, 0.55) !important;
+    
+}
+
+.swal2-popup {
+    background: rgba(255, 255, 255, 1) !important;
+
+    border-radius: 1px !important;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        inset 0 0 20px rgba(255, 255, 255, 0.15);
+    padding: 2.1rem 1.9rem !important;
+    width: 96% !important;
+    max-width: 420px;
+    
+}
+
+.swal2-title {
+    color: #000 !important;
+    font-weight: 600;
+    font-size: 1.9rem !important;
+    }
+
+.swal2-html-container {
+    color: rgba(0, 0, 0, 0.95) !important;
+    font-size: 1.05rem;
+    line-height: 1.4 !important;
+    }
+
+
+.swal2-confirm {
+    background:var(--primary) !important;
+    color: #ffff !important;
+    
+    border-radius: 50px !important;
+    padding: 0.7rem 2.2rem !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+}
+
+.swal2-confirm:active {
+    background:var(--primary-hover) !important;
+}
+
+#header {
+  width: 100vw;
+  height: 250px;
+  background: url('bg-h.png');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1.25rem;
+  font-weight: 600;
+  position: absolute; 
+  text-align: center;
+  top: -50px;
+  left: 0;
+}
+
+@media (min-width: 768px) {
+    #header{
+        top: 0;
+        height: 150px;
+    }
+    .app{
+        max-width: 800px;
+    }
+}
+
+#header h1 {
+    font-size: 1.5rem;
+    margin: 5px 10px;
+    font-weight: 600;
+}
+#header p {
+    font-size: 1rem;
+    margin: 0 10px;
+    line-height: 1.4;
+    font-weight: 500;
+}
+.app{
+flex:1;
+display:flex;
+padding:10px;
+max-width: 600px;
+margin-top: 230px;
+
+}
+
+.panel{
+border: 1px solid var(--border);
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:0;
+padding:18px;
+margin: 0 auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+display:flex;
+flex-direction:column;
+max-width:100%;
+  z-index: 10;
+  transition: all 0.3s;
+  animation: fadein 0.3s;
+}
+@keyframes fadein{
+0%{
+opacity:0;
+}
+100%{
+opacity:1;
+}}
+#loginBox{
+max-width:520px;
+margin:auto;
+}
+
+#vaultBox{
+height:100%;
+}
+
+textarea{
+width:100%;
+min-height:60svh;
+max-height: 700px;
+border-radius:0;
+border:1px solid var(--border);
+padding:12px;
+font-size:14px;
+line-height:1.6;
+outline:none;
+transition:0.15s;
+background:white;
+}
+
+textarea:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+}
+
+#masterPassword{
+min-height:20svh !important;
+max-height: 500px;
+resize: none;
+}
+
+#vaultData{
+flex:1;
+resize:none;
+margin-bottom:12px;
+overflow:auto;
+}
+
+.fileRow{
+display:flex;
+gap:10px;
+align-items:center;
+margin-top:12px;
+}
+
+#fileInput{
+display:none;
+}
+
+.fileBtn{
+background:#f1f5f9;
+border:1px solid var(--border);
+padding:10px 14px;
+border-radius:0;
+cursor:pointer;
+font-size:14px;
+transition:0.15s;
+}
+
+.fileBtn:hover{
+background:#e2e8f0;
+}
+
+.fileName{
+font-size:13px;
+color:var(--muted);
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+button{
+padding:11px 14px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 3px;
+border-radius:0;
+  width: auto;
+border:none;
+font-size:14px;
+cursor:pointer;
+font-weight:500;
+transition:0.15s;
+}
+
+.primary{
+background:var(--primary);
+color:white;
+}
+.primary:hover{
+background:var(--primary-hover);
+}
+
+.secondary{
+background:#e5eaf0;
+}
+.secondary:hover{
+background:#d6dee7;
+}
+
+.save-btn, .generate-btn {
+    padding: 6px 10px;
+    min-height: 40px;
+    font-size: 0.8rem;
+}
+
+
+
+.toolbar{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.toolbar button{
+flex:1;
+}
+
+.small{
+margin-top:12px;
+font-size:13px;
+color:var(--muted);
+}
+
+
+.hidden{
+display:none;
+}
+
+.title{
+width: 100%;
+font-size:1.1rem;
+font-weight:650;
+letter-spacing:.3px;
+margin: 5px auto;
+position:relative;
+color:#444;
+text-align: center;
+
+}
+.title p {
+margin: 0;
+}
+.helpContent{
+font-weight: 500;
+overflow:auto;
+font-size: 0.925rem;
+border: 1px solid var(--border);
+padding:10px !important;
+margin-top: 10px;
+margin-bottom: 10px;
+color:#454545;
+}
+.helpContent h3:first-child {
+margin-top: 6px;
+}
+.helpContent h3{
+margin-top:30px;
+margin-bottom:6px;
+font-size:0.97rem;
+font-weight: 550;
+color: #444;
+}
+.helpContent h4{
+    font-size: 0.94rem;
+    font-weight: 550;
+    color: #444;
+}
+b{ font-weight: 600; color: #444;}
+
+.helpContent p{
+margin:6px 0;
+line-height:1.6;
+}
+
+.helpContent ul, .helpContent ol{
+margin:6px 0 10px 0;
+gap: 10px;
+display: flex;
+flex-direction: column;
+color:#454545;
+}
+
+
+.helpContent ul li, .helpContent ol li{
+margin-left: -10px;
+}
+
+.example{
+background:#0f172a;
+color:#e2e8f0;
+padding:10px;
+border-radius:0;
+font-family:"JetBrains Mono", monospace;
+font-size:13px;
+margin-top:8px;
+}
+
+#scanQRBtn {
+background:#f1f5f9;
+border:1px solid var(--border);
+padding:5px 10px;
+border-radius:0;
+cursor:pointer;
+font-size:10px;
+font-weight: 700;
+color: #444;
+transition:0.15s;
+}
+
+#scanQRBtn:hover {
+background:#e2e8f0;
+}
+
+#qrInput {
+display:none;
+}
+
+.qr-input-btn{
+padding:5px 10px;
+font-size:10px;
+font-weight: 700;
+color: #444;
+}
+
+#qrFileName {
+font-size:13px;
+color:var(--muted);
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+#qrVideo {
+border:1px solid var(--border);
+border-radius:0;
+background:#000;
+object-fit:cover;
+}
+.qr-wrapper{
+  position:relative;
+  width:100%;
+}
+
+#qrOverlay{
+  position:absolute;
+  inset:0;
+  background:transparent;
+  z-index:10;
+}
+
+#qrOverlay.hidden{
+  display:none;
+}
+
+#qrVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.scan-area{
+  position:absolute;
+  width:70%;
+  aspect-ratio:1/1;
+  top:50%;
+  left:50%;
+  pointer-events:none;
+  animation:zoomInOut 0.9s linear infinite;
+}
+
+@keyframes zoomInOut{
+  0%{
+    transform: translate(-50%,-50%) scale(1);
+  }
+  50%{
+    transform: translate(-50%,-50%) scale(1.07);
+  }
+  100%{
+    transform: translate(-50%,-50%) scale(1);
+  }
+}
+
+.corner{
+  position:absolute;
+  width:30px;
+  height:30px;
+  border:5px solid #ffd240;
+}
+
+.tl{ top:0; left:0; border-right:none; border-bottom:none; }
+.tr{ top:0; right:0; border-left:none; border-bottom:none; }
+.bl{ bottom:0; left:0; border-right:none; border-top:none; }
+.br{ bottom:0; right:0; border-left:none; border-top:none; }
+
+.scan-line{
+  display:none;
+  position:absolute;
+  width:100%;
+  height:3px;
+  background:#fff;
+  }
+#vaultBox{
+width: 100%;
+gap:14px;
+}
+
+#fileViewer{
+display:flex;
+flex-direction:row;
+align-items:center;
+justify-content:flex-start;
+gap:12px;
+max-width:100%;
+padding:12px;
+border:1px solid var(--border);
+background:#f8fafc;
+overflow:hidden;
+}
+
+.file-icon{
+width:48px;
+height:48px;
+min-width:48px;
+flex-shrink:0;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+background:#ffffff;
+border:1px solid var(--border);
+}
+
+.file-info{
+flex:1;
+min-width:0;
+max-width: 65%;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+#fileOriginalName{
+font-size:14px;
+color:#444;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+#fileOriginalType{
+font-size:12px;
+color:var(--muted);
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+
+.panduan-2 ul {
+    padding: 0;
+    margin: 0 1rem;
+
+    font-size: 0.76rem;
+}
+
+
+#fileViewer button{
+flex:0 0 auto;
+width:auto;
+white-space:nowrap;
+padding:8px 14px;
+margin-left:auto;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+}
+
+@media (max-width:520px){
+
+#fileViewer{
+padding:10px;
+gap:10px;
+}
+
+.file-icon{
+width:42px;
+height:42px;
+min-width:42px;
+color: #2563eb;
+font-size:22px;
+}
+
+#fileOriginalName{
+font-size:13px;
+}
+
+#fileOriginalType{
+font-size:11px;
+}
+
+#fileViewer button{
+height:34px;
+font-size:12px;
+padding:6px 12px;
+}
+}
+
+@media (max-width:360px){
+
+.file-icon{
+width:38px;
+height:38px;
+min-width:38px;
+font-size:20px;
+}
+
+#fileOriginalName{
+font-size:12.5px;
+}
+
+#fileOriginalType{
+font-size:10.5px;
+}
+}
+
+.spinner { 
+  display:inline-block;
+  animation:spin 0.6s linear infinite;
+  margin-right:8px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+button.loading {
+  opacity:0.8;
+  pointer-events:none;
+}
+</style></head>
+
+<body>
+  
+<div id="header"><h1>ENKRIPTOR</h1><p>MENDUKUNG SEMUA JENIS FILE</p>
+<img src="ikon.png" style="width: 120px">
+</div>
+
+
+    <div class="app">    
+  <div id="helpBox" class="panel">
+  <div class="title"><p>PANDUAN PENGGUNA</p></div>
+  <div class="helpContent">
+    <h3>1. Master Password / Passphrase</h3>
+    <p>Master password adalah kunci utama untuk membuka atau mengenkripsi file kamu.</p>
+    <p><b>Penting:</b> Jika lupa master password, file terenkripsi tidak bisa dibuka lagi.</p>
+    <p>Gunakan passphrase panjang, mudah diingat, tapi sulit ditebak, contoh:</p>
+    <div class="example">kopi-pagi-hujan-motor-kenangan-2019</div>
+
+    <h3>2. Membuka atau Membuat File Enkripsi</h3>
+    <h4>A. Membuka File Enkripsi Lama</h4>
+    <ol>
+      <li>Masukkan master password di kolom “Master Password”.</li>
+      <li>Klik <b>Pilih File .secret</b> untuk memilih file terenkripsi yang sudah ada.</li>
+      <li>Klik <b>Buka / Buat File Enkripsi</b>.</li>
+      <li>Jika password benar, file asli akan ditampilkan di panel preview.</li>
+    </ol>
+    <h4>B. Membuat File Enkripsi Baru</h4>
+    <ol>
+      <li>Masukkan master password di kolom yang tersedia.</li>
+      <li>Jika tidak memilih file, klik <b>Buka / Buat File Enkripsi</b>.</li>
+      <li>File baru akan dibuat otomatis dengan master password yang dimasukkan.</li>
+    </ol>
+
+    <h3>3. Menggunakan QR Code untuk Master Password</h3>
+    <h4>A. Dari Gambar QR</h4>
+    <ol>
+      <li>Klik <b>Pilih Gambar</b> pada bagian di samping tombol scan via kamera.</li>
+      <li>Pilih file gambar QR.</li>
+      <li>Master password akan otomatis terisi dari QR code.</li>
+    </ol>
+    <h4>B. Dari Kamera</h4>
+    <ol>
+      <li>Klik <b>Scan QR via Kamera</b>.</li>
+      <li>Arahkan kamera ke QR code.</li>
+      <li>Jika berhasil, master password muncul otomatis.</li>
+      <li>Kamera akan mati otomatis setelah QR terbaca, atau klik tombol untuk mematikan kamera.</li>
+    </ol>
+
+    <h3>4. Menambahkan dan Mengenkripsi File</h3>
+    <ol>
+      <li>Pilih file untuk dienkripsi dengan klik <b>Tambahkan File</b>.</li>
+      <li>File akan ditampilkan di panel preview dengan nama, tipe, dan ukuran.</li>
+      <li>Klik <b>Simpan & Enkripsi</b> untuk mengenkripsi file menggunakan master password.</li>
+      <li>File terenkripsi otomatis didownload dengan ekstensi <code>.secret</code>.</li>
+    </ol>
+
+    <h3>5. Mengunduh File Hasil Dekripsi</h3>
+    <ol>
+      <li>Jika sudah membuka file terenkripsi atau menambahkan file, klik <b>Unduh File</b> di panel file viewer.</li>
+      <li>File akan didownload dalam format aslinya.</li>
+      <li>Pastikan master password benar, jika tidak file tidak bisa didekripsi.</li>
+    </ol>
+
+    <h3>6. Keamanan & Auto-Lock</h3>
+    <ul>
+      <li>Semua proses enkripsi/dekripsi terjadi di perangkat, data tidak dikirim ke server manapun.</li>
+      <li>File akan otomatis terkunci setelah 2 menit tidak ada aktivitas (mouse atau keyboard).</li>
+      <li>Setelah terkunci, masukkan master password lagi untuk membuka file.</li>
+    </ul>
+
+    <h3>7. Tips Tambahan</h3>
+    <ul>
+      <li>Gunakan passphrase panjang dan unik.</li>
+      <li>Simpan beberapa salinan <code>.secret</code> di lokasi berbeda.</li>
+      <li>Backup master password, misalnya via QR code.</li>
+      <li>File hanya berisi file terenkripsi, bukan teks langsung.</li>
+    </ul>
+  </div>
+  <button class="primary" style="width:100%;margin-top:14px" onclick="startApp()">Saya Mengerti</button>
+</div>
+ <div id="loginBox" class="panel hidden"><p></p>    
+<div class="qr-wrapper">
+    <textarea id="masterPassword"
+        placeholder="Masukkan atau buat master password atau passphrase panjang"></textarea>
+
+    <div id="qrOverlay" class="hidden">
+        <video id="qrVideo" playsinline></video>
+
+        <div class="scan-area">
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+            <div class="scan-line"></div>
+        </div>
+    </div>
+</div>
+<div class="fileRow">  
+  <label class="qr-input-btn" id="scanQRBtn">Scan QR via Kamera</label>  
+  <label class="fileBtn qr-input-btn" for="qrInput">Pilih Gambar</label>  
+  <input type="file" id="qrInput" class="qr-input-btn" accept="image/*">  
+  <div class="fileName" id="qrFileName">Tidak ada file QR</div>  
+</div>  
+<div class="fileRow">    
+<label class="fileBtn" for="fileInput">Pilih File .secret</label>    
+<input type="file" id="fileInput" accept=".secret">    
+<div class="fileName" id="fileName">Tidak ada file</div>    
+</div><button class="primary" style="margin-top:14px;width:100%;" onclick="unlock()">Buka / Buat File Enkripsi</button>  <div class="small">Halaman akan reload otomatis setelah 2 menit tidak ada aktivitas</div>    
+</div><div id="vaultBox" class="panel hidden">
+
+  <div id="fileViewer" class="file-viewer hidden">
+      <div class="file-icon"><i id="fileIcon" class="ph ph-file file-icon"></i></div>
+      <div class="file-info">
+          <div id="fileOriginalName" class="file-name"></div>
+          <div id="fileOriginalType" class="file-type"></div>
+      </div>
+      <button class="secondary" onclick="downloadDecrypted()">Unduh File</button>
+  </div>
+<div class="panduan-2">
+    <ul>
+     <li>Di atas adalah file dengan format asli.</li>
+     <li>Gunakan tambah file jika ingin mengenkripsi.</li>
+      <li>Klik simpan & enkripsi untuk menyimpan hasil enkripsi.</li>
+      <li>Peringatan! jika lupa password atau password hilang, file selamanya tidak akan bisa di dekripsi.</li>
+    </ul>
+</div>
+  <div class="fileRow">
+      <label class="fileBtn" for="vaultFileInput" id="vaultFileLabel">Tambahkan File</label>
+      <input type="file" id="vaultFileInput" hidden>
+      <div class="fileName" id="vaultSelectedFile">Tidak ada file</div>
+  </div>
+
+  <div class="toolbar">
+      <button class="primary save-btn" onclick="save()">Simpan & Enkripsi</button>
+      <button class="secondary generate-btn" onclick="goBack()">Halaman Sebelumnya</button>
+  </div>
+<div>
+</div>
+<script>
+
+let keyGlobal;
+let saltGlobal;
+let autoLockTimer;
+
+let selectedFile = null;
+let decryptedBlob = null;
+
+const viewer = document.getElementById("fileViewer");
+const nameBox = document.getElementById("fileOriginalName");
+const fileNameBox = document.getElementById("fileName");
+const typeBox = document.getElementById("fileOriginalType");
+const fileIcon = document.getElementById("fileIcon");
+
+function setButtonLoading(button, isLoading, text = "Memproses...") {
+    if (isLoading) {
+        button.classList.add("loading");
+        button.innerHTML = `<i class="spinner ph-bold ph-circle-notch spin-icon"></i><span>${text}</span>`;
+    } else {
+        button.classList.remove("loading");
+        button.innerHTML = button.dataset.originalText;
+    }
+}
+
+function b64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    const chunkSize = 0x8000;
+
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+        const chunk = bytes.subarray(i, i + chunkSize);
+        binary += String.fromCharCode.apply(null, chunk);
+    }
+
+    return btoa(binary);
+}
+
+function fromB64(str){
+    return Uint8Array.from(atob(str), c=>c.charCodeAt(0));
+}
+
+function formatFileSize(bytes) {
+    if (!bytes && bytes !== 0) return "";
+
+    const sizes = ["B", "KB", "MB", "GB"];
+    let i = 0;
+
+    while (bytes >= 1024 && i < sizes.length - 1) {
+        bytes /= 1024;
+        i++;
+    }
+
+    return bytes.toFixed(1) + " " + sizes[i];
+}
+
+function sliceFileName(filename) {
+  if (!filename) return "";
+
+  const containerWidth = nameBox.offsetWidth;
+
+
+  if (!containerWidth || containerWidth < 20) {
+    return filename;
+  }
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const style = window.getComputedStyle(nameBox);
+  ctx.font = `${style.fontSize} ${style.fontFamily}`;
+
+  if (ctx.measureText(filename).width <= containerWidth) {
+    return filename;
+  }
+
+  const extIndex = filename.lastIndexOf(".");
+  let name = filename;
+  let ext = "";
+
+  if (extIndex !== -1) {
+    name = filename.slice(0, extIndex);
+    ext = filename.slice(extIndex);
+  }
+
+  while (
+    ctx.measureText(name + "..." + ext).width > containerWidth &&
+    name.length > 0
+  ) {
+    name = name.slice(0, -1);
+  }
+
+  return name ? name + "..." + ext : filename;
+}
+function autoSliceToFit(text, element, percent = 1) {
+  if (!text) return "";
+
+  const maxWidth = element.offsetWidth * percent;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const style = window.getComputedStyle(element);
+  ctx.font = `${style.fontSize} ${style.fontFamily}`;
+
+  if (ctx.measureText(text).width <= maxWidth) return text;
+
+  const extIndex = text.lastIndexOf(".");
+  let name = text;
+  let ext = "";
+
+  if (extIndex !== -1) {
+    name = text.slice(0, extIndex);
+    ext = text.slice(extIndex);
+  }
+
+  while (ctx.measureText(name + "..." + ext).width > maxWidth && name.length > 0) {
+    name = name.slice(0, -1);
+  }
+
+  return name + "..." + ext;
+}
+function showViewer(filename, type, size){
+
+    nameBox.textContent = filename && filename.trim()
+        ? sliceFileName(filename)
+        : "Belum ada file";
+
+    fileIcon.className = "ph " + getFileIcon(type, filename) + " file-icon";
+
+    if (size !== undefined && size !== null) {
+        const displayType = getDisplayType(type, filename);
+
+typeBox.textContent = size !== undefined && size !== null
+    ? `${displayType} • ${formatFileSize(size)}`
+    : displayType;
+    } else {
+        typeBox.textContent = type || "Unknown";
+    }
+
+    viewer.classList.remove("hidden");
+}
+
+function hideViewer() {
+    viewer.classList.add("hidden");
+    nameBox.textContent = "Belum ada file";
+    typeBox.textContent = "-";
+    fileIcon.className = "ph ph-file file-icon";
+}
+
+function getFileIcon(type, filename) {
+
+    let iconClass = "ph-file";
+
+    if (!type && filename) {
+        const ext = filename.split(".").pop().toLowerCase();
+
+        if (["png","jpg","jpeg","webp","gif"].includes(ext)) {
+            iconClass = "ph-file-image";
+        }
+        else if (["mp4","webm","mov","mkv"].includes(ext)) {
+            iconClass = "ph-file-video";
+        }
+        else if (["mp3","wav","ogg","aac"].includes(ext)) {
+            iconClass = "ph-file-audio";
+        }
+        else if (["pdf"].includes(ext)) {
+            iconClass = "ph-file-pdf";
+        }
+        else if (["zip","rar","7z"].includes(ext)) {
+            iconClass = "ph-file-zip";
+        }
+        else if (["doc","docx"].includes(ext)) {
+            iconClass = "ph-file-doc";
+        }
+        else if (["xls","xlsx"].includes(ext)) {
+            iconClass = "ph-file-xls";
+        }
+        else if (["ppt","pptx"].includes(ext)) {
+            iconClass = "ph-file-ppt";
+        }
+        else {
+            iconClass = "ph-file";
+        }
+    }
+    else if (type && type.startsWith("image/")) {
+        iconClass = "ph-file-image";
+    }
+    else if (type && type.startsWith("video/")) {
+        iconClass = "ph-file-video";
+    }
+    else if (type && type.startsWith("audio/")) {
+        iconClass = "ph-file-audio";
+    }
+    else if (type === "application/pdf") {
+        iconClass = "ph-file-pdf";
+    }
+    else if (type && (type.includes("zip") || type.includes("compressed"))) {
+        iconClass = "ph-file-zip";
+    }
+
+    return iconClass;
+}
+
+function getDisplayType(type, filename) {
+   
+    if (filename && filename.includes(".")) {
+        return filename.split(".").pop().toUpperCase();
+    }
+
+    if (type && type.includes("/")) {
+        return type.split("/")[1].toUpperCase();
+    }
+
+    return "FILE";
+}
+document.querySelectorAll("button").forEach(btn=>{
+    btn.dataset.originalText = btn.innerHTML;
+});
+// ================= PENGACAK =================
+async function deriveKey(password, salt) {
+
+    const hash = await argon2.hash({
+        pass: password,
+        salt: salt,
+        type: argon2.ArgonType.Argon2id, 
+        time: 3,         
+        mem: 65536,     
+        parallelism: 1,
+        hashLen: 32     
+    });
+
+    return crypto.subtle.importKey(
+        "raw",
+        hash.hash,
+        { name: "AES-GCM" },
+        false,
+        ["encrypt", "decrypt"]
+    );
+}
+// ================= TAMPILAN FILE BOX =================
+document.getElementById("fileInput").addEventListener("change", e => {
+    const f = e.target.files[0];
+    const label = document.querySelector('label[for="fileInput"]');
+    const fileNameBox = document.getElementById("fileName");
+
+    if (f) {
+        fileNameBox.textContent = autoSliceToFit(f.name, fileNameBox, 1);
+        label.textContent = "Ganti File";
+    } else {
+        fileNameBox.textContent = "Tidak ada file";
+        label.textContent = "Tambahkan File";
+    }
+});
+
+document.getElementById("vaultFileInput").addEventListener("change", e=>{
+    const f = e.target.files[0];
+    selectedFile = f;
+
+    const el = document.getElementById("vaultSelectedFile");
+    const label = document.getElementById("vaultFileLabel");
+
+    el.textContent = f
+        ? autoSliceToFit(f.name, el, 1)
+        : "Tidak ada file";
+
+    if (f) {
+        label.textContent = "Ganti File";
+        decryptedBlob = null;
+        showViewer(f.name, f.type, f.size);
+    } else {
+        label.textContent = "Tambahkan File";
+        hideViewer();
+    }
+});
+// ================= BUKA =================
+async function unlock() {
+    const button = document.querySelector("#loginBox .primary");
+    setButtonLoading(button, true);
+
+    const password = document.getElementById("masterPassword").value.trim();
+    const file = document.getElementById("fileInput").files[0];
+
+    if (!password) {
+        Swal.fire({
+            icon: "warning",
+            title: "Oops...",
+            text: "Master password wajib diisi!"
+        });
+        setButtonLoading(button, false);
+        return;
+    }
+
+    try {
+        if (!file) {
+            saltGlobal = crypto.getRandomValues(new Uint8Array(16));
+            keyGlobal = await deriveKey(password, saltGlobal);
+            hideViewer();
+            openVault();
+        } else {
+            const buffer = await file.arrayBuffer();
+            const data = new Uint8Array(buffer);
+
+            saltGlobal = data.slice(0, 16);
+            const iv = data.slice(16, 28);
+
+            const nameLength = new DataView(data.buffer, 28, 2).getUint16(0, true);
+            const filenameBytes = data.slice(30, 30 + nameLength);
+            const originalName = new TextDecoder().decode(filenameBytes);
+
+            const encrypted = data.slice(30 + nameLength);
+
+            keyGlobal = await deriveKey(password, saltGlobal);
+
+            const decrypted = await crypto.subtle.decrypt(
+                { name: "AES-GCM", iv: iv },
+                keyGlobal,
+                encrypted
+            );
+
+            decryptedBlob = new Blob([decrypted], { type: "application/octet-stream" });
+            decryptedBlob.originalName = originalName;
+
+            openVault();
+            showViewer(originalName, "", decryptedBlob.size);
+        }
+    } catch {
+        Swal.fire({
+            icon: "error",
+            title: "Gagal Membuka",
+            text: "Password salah atau file rusak!"
+        });
+    }
+
+    setButtonLoading(button, false);
+}
+// ================= DEKRIPSI FILE ENKRIPSI =================
+function openVault(){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("vaultBox").classList.remove("hidden");
+    startAutoLock();
+}
+
+// ================= SAVE FILE TERENKRIPSI =================
+async function save() {
+    if (!selectedFile) {
+        Swal.fire({
+            icon: "info",
+            title: "Belum Ada File",
+            text: "Pilih file dulu!"
+        });
+        return;
+    }
+
+    const fileBuffer = await selectedFile.arrayBuffer();
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    const encrypted = await crypto.subtle.encrypt(
+        { name: "AES-GCM", iv: iv },
+        keyGlobal,
+        fileBuffer
+    );
+
+    const filenameBytes = new TextEncoder().encode(selectedFile.name);
+    const filenameLength = new Uint16Array([filenameBytes.length]);
+
+    const combined = new Uint8Array(
+        16 + 12 + 2 + filenameBytes.length + encrypted.byteLength
+    );
+    combined.set(saltGlobal, 0);
+    combined.set(iv, 16);
+    combined.set(new Uint8Array(filenameLength.buffer), 28);
+    combined.set(filenameBytes, 30);
+    combined.set(new Uint8Array(encrypted), 30 + filenameBytes.length);
+
+    const blob = new Blob([combined], {
+        type: "application/octet-stream"
+    });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = selectedFile.name.replace(/\.[^/.]+$/, "") + ".secret";
+    a.click();
+}
+// ================= DOWNLOAD DECRYPTED =================
+function downloadDecrypted() {
+    let blob = null;
+    let filename = "download";
+
+    if (decryptedBlob) {
+        blob = decryptedBlob;
+        filename = decryptedBlob.originalName || "download";
+    } else if (selectedFile) {
+        blob = selectedFile;
+        filename = selectedFile.name;
+    } else {
+        Swal.fire({
+            icon: "warning",
+            title: "Belum ada file",
+            text: "Silakan dekripsi atau pilih file terlebih dahulu.",
+            confirmButtonText: "OK"
+        });
+        return;
+    }
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+}
+// ================= KEMBALI =================
+function goBack(){
+    document.getElementById("vaultBox").classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
+
+    hideViewer();
+    selectedFile = null;
+    decryptedBlob = null;
+
+    clearTimeout(autoLockTimer);
+}
+
+// ================= AUTO LOCK =================
+function startAutoLock(){
+    clearTimeout(autoLockTimer);
+    autoLockTimer=setTimeout(()=>{
+        location.reload();
+    },120000);
+}
+
+document.addEventListener("mousemove",startAutoLock);
+document.addEventListener("keydown",startAutoLock);
+
+// ================= MULAI SITUS =================
+function startApp(){
+    document.getElementById("helpBox").classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
+}
+
+// ================= MULAI LOGIKA QR CODE =================
+const qrInput = document.getElementById("qrInput");
+const qrVideo = document.getElementById("qrVideo");
+const scanQRBtn = document.getElementById("scanQRBtn");
+const masterPasswordInput = document.getElementById("masterPassword");
+const qrOverlay = document.getElementById("qrOverlay");
+
+let qrScanner = null;
+
+function stopScanner(){
+    if(!qrScanner) return;
+
+    qrScanner.stop();
+    qrScanner.destroy();
+    qrScanner = null;
+
+    qrOverlay.classList.add("hidden");
+    qrVideo.classList.add("hidden");
+    masterPasswordInput.style.visibility = "visible";
+
+    scanQRBtn.textContent = "Scan QR via Kamera";
+}
+
+qrInput.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    document.getElementById("qrFileName").textContent = file ? file.name : "Tidak ada file QR";
+    if(!file) return;
+
+    try{
+        const result = await QrScanner.scanImage(file);
+        masterPasswordInput.value = result;
+    }catch(err){
+        Swal.fire({
+  icon: "error",
+  title: "QR Tidak Terbaca",
+  text: "Gagal membaca QR dari gambar"
+});
+    }
+});
+
+scanQRBtn.addEventListener("click", async () => {
+
+    if(qrScanner){
+        stopScanner();
+        return;
+    }
+
+    masterPasswordInput.style.visibility = "hidden";
+    qrOverlay.classList.remove("hidden");
+    qrVideo.classList.remove("hidden");
+
+    qrScanner = new QrScanner(
+        qrVideo,
+        result => {
+            masterPasswordInput.value = result.data || result;
+            stopScanner();
+        },
+        {
+            highlightScanRegion:false,
+            maxScansPerSecond:5,
+            preferredCamera:"environment"
+        }
+    );
+
+    try{
+        await qrScanner.start();
+        scanQRBtn.textContent="Matikan scanner dan kamera";
+    }catch{
+        Swal.fire({
+  icon: "error",
+  title: "Kamera Ditolak",
+  text: "Tidak bisa mengakses kamera"
+});
+        stopScanner();
+    }
+});
+</script>
+</body> 
+ </html>  
