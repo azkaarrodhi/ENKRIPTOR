@@ -1,10 +1,10 @@
 @font-face {
   font-family: "Phosphor";
   src:
-    url("/library/ph-icon/Phosphor.woff2") format("woff2"),
-    url("/library/ph-icon/Phosphor.woff") format("woff"),
-    url("/library/ph-icon/Phosphor.ttf") format("truetype"),
-    url("/library/ph-icon/Phosphor.svg#Phosphor") format("svg");
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor.woff2") format("woff2"),
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor.woff") format("woff"),
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor.ttf") format("truetype"),
+    url("https://azkaarrodhi.github.io/ENKRIPTOR/library/ph-icon/Phosphor.svg#Phosphor") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
